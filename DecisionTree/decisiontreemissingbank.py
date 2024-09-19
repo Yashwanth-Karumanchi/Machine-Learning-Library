@@ -37,17 +37,19 @@ class DecisionTree:
                 feature_types.append("categorical")
         return feature_types
 
+    # Function to impute the missing (unknown) values with the most common values
     def _impute_missing_values(self, X, y):
         majority_values = {}
         for i in range(X.shape[1]):
             if self.feature_types[i] == "categorical":
                 values = X[:, i]
-                # Replace 'unknown' with the majority value
+    
                 if 'unknown' in values:
                     majority_value = Counter(values[values != 'unknown']).most_common(1)[0][0]
                     majority_values[i] = majority_value
         return majority_values
 
+    # Function to replace missing values (unknown) with the imputed values
     def _replace_missing_values(self, X):
         X_imputed = X.copy()
         for i in range(X.shape[1]):
@@ -215,7 +217,6 @@ column_headers = ['age', 'job', 'marital', 'education', 'default', 'balance', 'h
 df_train = pd.read_csv("datasets/bank/train.csv", names=column_headers)
 df_test = pd.read_csv("datasets/bank/test.csv", names=column_headers)
 
-# Impute missing values in training set
 X_train = df_train.drop('label', axis=1).values
 y_train = df_train['label'].values
 X_test = df_test.drop('label', axis=1).values

@@ -25,12 +25,12 @@ class DecisionTree:
         self.feature_types = self._determine_feature_types(X)
         self.root = self._grow_tree(X, y)
 
+    # Function to determine if the attribute is of type categorical or numerical
     def _determine_feature_types(self, X):
-        """Determine if a feature is numerical or categorical."""
         feature_types = []
         for i in range(X.shape[1]):
             unique_values = np.unique(X[:, i])
-            if isinstance(unique_values[0], (int, float)) and len(unique_values) > 10:  # Assuming numerical if more than 10 unique values
+            if isinstance(unique_values[0], (int, float)) and len(unique_values) > 10:
                 feature_types.append("numerical")
             else:
                 feature_types.append("categorical")
@@ -198,7 +198,6 @@ y_train = df_train['label'].values
 X_test = df_test.drop('label', axis=1).values
 y_test = df_test['label'].values
 
-# Rest of the evaluation code with varying depth and calculation of metrics remains the same
 metrics = {crit: {'train': [], 'test': []} for crit in ['information_gain', 'majority_error', 'gini']}
 best_depths = {crit: 0 for crit in metrics.keys()}
 best_accs = {crit: 0 for crit in metrics.keys()}
